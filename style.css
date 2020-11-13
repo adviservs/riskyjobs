@@ -10,6 +10,7 @@ tr.results {
 a {
   text-decoration: none;
   font-weight: bold;
+  color: #0400ff;
 }
 
 a:link {
@@ -19,7 +20,8 @@ a:link {
 a:hover {
   background-color: #E2F345;
 }
-a:visited {
+
+a:visited {
   color: #882E2C;
 }
 
