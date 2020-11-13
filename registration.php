@@ -38,9 +38,9 @@
       $output_form = 'yes';
     }
 
-    if (empty($phone)) {
-      // $phone is blank
-      echo '<p class="error">You forgot to enter your phone number.</p>';
+    if (!preg_match('/^\(?[1-9]\d{2}\)?[-\s]\d{3}-\d{4}$/', $phone)) {
+      // Phone number is not valid
+      echo '<p class="error"> Вы забыли ввести номер своего телефона. </p>';
       $output_form = 'yes';
     }
 
