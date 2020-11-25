@@ -32,10 +32,20 @@
       $output_form = 'yes';
     }
 
-    if (empty($email)) {
-      // $email is blank
+    if (!preg_match('/^[a-zA-Z0-9][a-zA-Z0-9\._\-&!?=#]*@/', $email)) {
+      // $email is invalid because LocalName is bad
       echo '<p class="error">You forgot to enter your email address.</p>';
       $output_form = 'yes';
+    }
+    else {
+      // Strip out everything but the domain from the email
+      $domain = preg_replace('/^[a-zA-Z0-9][a-zA-Z0-9\._\-&!?=#]*@/', '', $email);
+      // Now check if $domain is registered
+      // if (!win_checkdnsrr($domain, $recType='')) {
+      if (!checkdnsrr($domain)) {
+        echo '<p class="error">Your email address is invalid.</p>';
+        $output_form = 'yes';
+      }
     }
 
     if (!preg_match('/^\(?[1-9]\d{2}\)?[-\s]\d{3}-\d{4}$/', $phone)) {
@@ -93,8 +103,12 @@
 <?php
   }
   else if ($output_form == 'no') {
-    echo '<p>' . $first_name . ' ' . $last_name . ', thanks for registering with Risky Jobs!</p>';
+    echo '<p>' . $first_name . ' ' . $last_name . ', thanks for registering with Risky Jobs!<br />';
 
+    $patern = '/[\(\)\-\s\.]/';
+    $replacement = '';
+    $new_phone = preg_replace($patern, $replacement, $phone);
+    echo 'Номер вашего телефона зарегистрирован как ' . $new_phone . '</p>';
     // code to insert data into the RiskyJobs database...
   }
 ?>
